@@ -1,0 +1,14 @@
+.navbar {
+    background-color: lightgray;
+}
+
+.navlist {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navitem {
+    display: inline-block;
+    padding: 1rem;
+}
