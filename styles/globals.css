@@ -2,12 +2,9 @@
   box-sizing: border-box;
 }
 
-:root {
-  --accentColor: hsl(120, 61%, 50%);
-}
-
 body {
   margin: 0;
+  font-family: 'Roboto Slab', serif;
 }
 
 li {
@@ -17,8 +14,9 @@ li {
 a {
   text-decoration: none;
   color: black;
+  font-weight: bold;
 }
 
 a:hover {
-  color: var(--accentColor);
+  color: #87cefa;
 }
