@@ -1,9 +1,10 @@
-import Navbar from "../../components/Navbar";
+import HomeLayout from "../../layouts/HomeLayout";
 
-export default function Hunting() {
+export default function Completed() {
     return (
         <>
-        <Navbar/>
         </>
     );
 }
+
+Completed.Layout = HomeLayout;
