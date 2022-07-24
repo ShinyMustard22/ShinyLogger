@@ -1,14 +1,22 @@
 .navbar {
-    background-color: lightgray;
+    background-color: rgb(214, 42, 60);
 }
 
 .navlist {
     margin: 0;
     padding: 0;
-    display: flex;
+    text-align: center;
 }
 
 .navitem {
     display: inline-block;
-    padding: 1rem;
+    padding: 1rem 0;
+}
+
+.navitem + .navitem {
+    margin-left: 1rem;
+}
+
+.active {
+    color: #87cefa;
 }
