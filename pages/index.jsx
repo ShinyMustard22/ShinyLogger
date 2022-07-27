@@ -1,5 +1,11 @@
-export default function Home() {
-  return (
-    <h1>web</h1>
-  )
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+// TEMPORARY - Until I create a website for the application
+export default function Website() {
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push("home");
+    }, []);
 }
