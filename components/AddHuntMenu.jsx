@@ -1,5 +1,6 @@
 import pokedex from '../public/pokedex';
 import styles from '../styles/AddHuntMenu.module.css';
+import { Oval } from  'react-loader-spinner'
 import { useState } from 'react';
 
 export default function AddHunt() {
@@ -54,6 +55,8 @@ export default function AddHunt() {
             <input type="text" placeholder="Search..." className={styles.searchBar} onChange={(event) => {setSearchTerm(event.target.value)}}/>
             <div className={styles.listContainer}> 
                 {pokedex.map((val, key) => {
+                    const [pokemonLoaded, setPokemonLoaded] = useState(false);
+
                     if (!val.toLowerCase().includes(searchTerm.toLowerCase()) && searchTerm !== "") {
                         return;
                     }
@@ -61,7 +64,9 @@ export default function AddHunt() {
                     const linkName = formatLink(val);
                     const link = `https://img.pokemondb.net/sprites/home/shiny/${linkName}.png`
                     return <button className={styles.listItem} key={key}>
-                        <img className={styles.listImage} src={link} alt={val}/>
+                        <img className={styles.listImage} src={link} alt={val} onLoad={() => {setPokemonLoaded(true)}}
+                            style={pokemonLoaded ? {} : {display: 'none'}}/>
+                        {pokemonLoaded ? null : <Oval color="#d62a3c" secondaryColor="#FFFFFF" height={80} width={80} />}
                         {val} 
                         <br />
                         {" #" + ("00" + parseInt(key + 1)).slice(-3)}
