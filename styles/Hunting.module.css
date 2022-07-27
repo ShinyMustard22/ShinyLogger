@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 32rem;
+    align-items: center;
+    background-color: rgb(214, 42, 60);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8rem;
+    padding: 2rem;
+    border: lightgray solid 0.25rem;
+}
+
+.addpokemon {
+    font-size: 2rem;
+    border: 0.25rem black solid;
+    aspect-ratio: 1 / 1;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 0.25rem;
+}
+
+.addpokemon:hover {
+    color: #87cefa;
+    border-color: #87cefa;
+}
