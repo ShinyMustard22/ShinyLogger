@@ -2,9 +2,25 @@
   box-sizing: border-box;
 }
 
+body, html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto Slab', serif;
+  border: lightgray solid 0.5rem;
+  background-color: #212121;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  margin: 0;
+  margin-bottom: 0.25rem;
 }
 
 li {
