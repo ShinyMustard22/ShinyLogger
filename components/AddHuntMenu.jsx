@@ -7,6 +7,7 @@ import { addDoc } from 'firebase/firestore';
 
 export default function AddHunt(props) {
     const [searchTerm, setSearchTerm] = useState("");
+    const [pokemonLoaded, setPokemonLoaded] = useState([]);
 
     return (
         <div className={styles.container}>
@@ -17,8 +18,6 @@ export default function AddHunt(props) {
             <input type="text" placeholder="Search..." className={styles.searchBar} onChange={(event) => {setSearchTerm(event.target.value)}}/>
             <div className={styles.listContainer}> 
                 {pokedex.map((val, key) => {
-                    const [pokemonLoaded, setPokemonLoaded] = useState(false);
-
                     if (!val.toLowerCase().includes(searchTerm.toLowerCase()) && searchTerm !== "") {
                         return;
                     }

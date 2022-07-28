@@ -22,7 +22,7 @@ export default function Completed() {
         <div className={styles.main}>
             {huntsData.map(hunt => {
                 const huntDoc = doc(db, "completed", hunt.id);
-                return <HuntCard name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
+                return <HuntCard key={hunt.id} name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
             })}
         </div>
     );

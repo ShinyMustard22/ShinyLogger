@@ -34,7 +34,7 @@ export default function Hunting() {
                 <div className={styles.main}>
                     {huntsData.map(hunt => {
                         const huntDoc = doc(db, "hunts", hunt.id);
-                        return <HuntCard name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
+                        return <HuntCard key={hunt.id} name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
                     })}
                 </div>
                 <button className={styles.addHunt} onClick={() => {setAddHuntVis(true)}}>+</button>
