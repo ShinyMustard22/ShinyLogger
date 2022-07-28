@@ -1,24 +1,49 @@
 import HomeLayout from "../../layouts/HomeLayout";
 import AddHunt from "../../components/AddHuntMenu";
+import HuntCard from "../../components/HuntCard";
 import styles from "../../styles/Hunting.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "../../firebase/clientApp";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Hunting() {
-    const [addHuntVis, setaddHuntVis] = useState(false);
+    const [addHuntVis, setAddHuntVis] = useState(false);
+    const [huntsData, setHuntsData] = useState([]);
 
+    const huntsRef = collection(db, "hunts")
+    useEffect(() => {
+        const getHunts = async () => {
+            const data = await getDocs(huntsRef);
+            setHuntsData(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        }
+
+        getHunts();
+    }, []);
+
+    
     return (
-        <>
-            {noHunts()}
-            {addHuntVis ? <AddHunt className={styles.addhuntcontainer}/> : null}
-        </>
-    );
+        <div>
+            {addHuntVis ? <AddHunt setAddHuntVis={setAddHuntVis} huntsRef={huntsRef}/> : 
+                huntsData.length === 0 ? noHunts() : huntsList()}
+        </div>
+    )
+
+    function huntsList() {
+        return (
+            <div className={styles.main}>
+                {huntsData.map(hunt => {
+                    return <HuntCard name={hunt.name} encounters={hunt.encounters}></HuntCard>
+                })}
+            </div>
+        );
+    }
 
     function noHunts() {
         return (
             <div className={styles.container}>
                 <h1>You have no current hunts...</h1>
                 <h2>Click below to start hunting!</h2>
-                <div className={styles.addpokemon} onClick={() => setaddHuntVis(!addHuntVis)}>+</div>
+                <div className={styles.addpokemon} onClick={() => setAddHuntVis(true)}>+</div>
             </div>
         )
     }

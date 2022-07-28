@@ -1,57 +1,19 @@
 import pokedex from '../public/pokedex';
+import generateLinkName from '../utility/generateLinkName';
 import styles from '../styles/AddHuntMenu.module.css';
 import { Oval } from  'react-loader-spinner'
 import { useState } from 'react';
+import { addDoc } from 'firebase/firestore';
 
-export default function AddHunt() {
+export default function AddHunt(props) {
     const [searchTerm, setSearchTerm] = useState("");
-
-    function formatLink(pokemon) {
-        if (pokemon.includes("Mr. Mime")) {
-            pokemon = pokemon.replace("Mr. Mime", "mr-mime");
-        }   
-        else if (pokemon === "Mime Jr.") {
-            pokemon = "mime-jr"
-        }
-
-        else if (pokemon === "Mr. Rime") {
-            pokemon = "mr-rime"
-        }
-
-        if (pokemon.includes("♂")) {
-            pokemon = pokemon.replace("♂", "-m");
-        }
-
-        else if (pokemon.includes("♀")) {
-            pokemon = pokemon.replace("♀", "-f");
-        }
-
-        if (pokemon.includes("’")) {
-            pokemon = pokemon.replace("’", "");
-        }
-
-        if (pokemon === "Type: Null") {
-            pokemon = pokemon.replace(": ", "-");
-        }
-
-        if (pokemon.includes("Tapu")) {
-            pokemon = pokemon.replace(" ", "-");
-        }
-
-        if (pokemon.includes("Alolan") || pokemon.includes("Galarian")) {
-            const spacePos = pokemon.indexOf(" ");
-            pokemon = pokemon.slice(spacePos + 1) + "-" + pokemon.slice(0, spacePos);
-
-            if (pokemon.includes("Darmanitan")) {
-                pokemon += "-standard";
-            }
-        }
-
-        return pokemon.toLowerCase();
-    }
 
     return (
         <div className={styles.container}>
+            <header className={styles.header}>
+                <h1>Choose a Pokemon</h1>
+                <div className={styles.exitBtn} onClick={() => {props.setAddHuntVis(false)}}>x</div>
+            </header>
             <input type="text" placeholder="Search..." className={styles.searchBar} onChange={(event) => {setSearchTerm(event.target.value)}}/>
             <div className={styles.listContainer}> 
                 {pokedex.map((val, key) => {
@@ -61,9 +23,9 @@ export default function AddHunt() {
                         return;
                     }
 
-                    const linkName = formatLink(val);
+                    const linkName = generateLinkName(val);
                     const link = `https://img.pokemondb.net/sprites/home/shiny/${linkName}.png`
-                    return <button className={styles.listItem} key={key}>
+                    return <button className={styles.listItem} key={key} onClick={() => {addHunt(val)}}>
                         <img className={styles.listImage} src={link} alt={val} onLoad={() => {setPokemonLoaded(true)}}
                             style={pokemonLoaded ? {} : {display: 'none'}}/>
                         {pokemonLoaded ? null : <Oval color="#d62a3c" secondaryColor="#FFFFFF" height={80} width={80} />}
@@ -75,4 +37,9 @@ export default function AddHunt() {
             </div>
         </div>
     )
+
+    async function addHunt(name) {
+        await addDoc(props.huntsRef, { name: name, encounters: 0 });
+        props.setAddHuntVis(false);
+    }
 }
