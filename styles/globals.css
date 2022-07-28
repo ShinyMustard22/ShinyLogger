@@ -9,18 +9,19 @@ body, html {
 body {
   margin: 0;
   font-family: 'Roboto Slab', serif;
-  border: lightgray solid 0.5rem;
   background-color: #212121;
 }
 
 h1 {
   margin: 0;
-  margin-bottom: 0.25rem;
 }
 
 h2 {
   margin: 0;
-  margin-bottom: 0.25rem;
+}
+
+h3 {
+  margin: 0;
 }
 
 li {
