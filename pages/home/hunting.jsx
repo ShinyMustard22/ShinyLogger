@@ -4,7 +4,7 @@ import HuntCard from "../../components/HuntCard";
 import styles from "../../styles/Hunting.module.css";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/clientApp";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc } from "firebase/firestore";
 
 export default function Hunting() {
     const [addHuntVis, setAddHuntVis] = useState(false);
@@ -22,19 +22,23 @@ export default function Hunting() {
 
     
     return (
-        <div>
+        <>
             {addHuntVis ? <AddHunt setAddHuntVis={setAddHuntVis} huntsRef={huntsRef}/> : 
-                huntsData.length === 0 ? noHunts() : huntsList()}
-        </div>
+                huntsData.length === 0 ? noHunts() : huntsList()} 
+        </>
     )
 
     function huntsList() {
         return (
-            <div className={styles.main}>
-                {huntsData.map(hunt => {
-                    return <HuntCard name={hunt.name} encounters={hunt.encounters}></HuntCard>
-                })}
-            </div>
+            <>
+                <div className={styles.main}>
+                    {huntsData.map(hunt => {
+                        const huntDoc = doc(db, "hunts", hunt.id);
+                        return <HuntCard name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
+                    })}
+                </div>
+                <button className={styles.addHunt} onClick={() => {setAddHuntVis(true)}}>+</button>
+            </>
         );
     }
 

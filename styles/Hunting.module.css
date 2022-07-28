@@ -34,3 +34,23 @@
     color: #87cefa;
     border-color: #87cefa;
 }
+
+.addHunt {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1rem;
+    font: inherit;
+    font-size: 2rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 0.25rem solid black;
+    background-color: rgb(214, 42, 60);
+    cursor: pointer;
+}
+
+.addHunt:hover {
+    color: #87cefa;
+    border-color: #87cefa;
+}
