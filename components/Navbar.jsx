@@ -3,7 +3,6 @@ import styles from "../styles/Navbar.module.css";
 
 export default function Navbar() {
     return (
-        <>
         <nav className={styles.navbar}>
             <ul className={styles.navlist}>
                 <li className={styles.navitem}>
@@ -14,6 +13,5 @@ export default function Navbar() {
                 </li>
             </ul>
         </nav>
-        </>
     )
 }
