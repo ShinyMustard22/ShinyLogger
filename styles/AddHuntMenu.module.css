@@ -12,6 +12,7 @@
     border: lightgray solid 0.25rem;
     gap: 1rem;
     padding: 1rem;
+    z-index: 999;
 }
 
 .exitBtn {
@@ -23,7 +24,9 @@
     right: 0;
     top: 0;
     aspect-ratio: 1 / 1;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
 }
 
 .exitBtn:hover {
@@ -62,7 +65,22 @@
     color: #87cefa;
 }
 
-.listImage {
+.imgContainer {
+    position: relative;
     width: 80%;
-    margin-bottom: 0.5rem;
+    aspect-ratio: 1 / 1;
+}
+
+.listImage {
+    object-fit: cover;
+}
+
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 50%);
+    z-index: 999;
 }
