@@ -4,17 +4,21 @@ import HuntCard from "../../components/HuntCard";
 import styles from "../../styles/Hunting.module.css";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/clientApp";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { query, orderBy, collection, doc, onSnapshot } from "firebase/firestore";
 
 export default function Hunting() {
     const [addHuntVis, setAddHuntVis] = useState(false);
     const [huntsData, setHuntsData] = useState([]);
 
-    const huntsRef = collection(db, "hunts")
+    const huntsRef = collection(db, "hunts");
+    const completedRef = collection(db, "completed");
+
     useEffect(() => {
         const getHunts = async () => {
-            const data = await getDocs(huntsRef);
-            setHuntsData(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+            const huntsQuery = query(huntsRef, orderBy('name'));
+            onSnapshot(huntsQuery, (snapshot) => {
+                setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+            });
         }
 
         getHunts();
@@ -24,7 +28,7 @@ export default function Hunting() {
     return (
         <>
             {addHuntVis ? <AddHunt setAddHuntVis={setAddHuntVis} huntsRef={huntsRef}/> : 
-                huntsData.length === 0 ? noHunts() : huntsList()} 
+                huntsData.length !== 0 ? huntsList() : addHuntVis ? "" : noHunts()}
         </>
     )
 
@@ -34,7 +38,8 @@ export default function Hunting() {
                 <div className={styles.main}>
                     {huntsData.map(hunt => {
                         const huntDoc = doc(db, "hunts", hunt.id);
-                        return <HuntCard key={hunt.id} name={hunt.name} encounters={hunt.encounters} doc={huntDoc}></HuntCard>
+                        return <HuntCard key={hunt.id} name={hunt.name} encounters={hunt.encounters} 
+                            doc={huntDoc} completedRef={completedRef}></HuntCard>
                     })}
                 </div>
                 <button className={styles.addHunt} onClick={() => {setAddHuntVis(true)}}>+</button>
@@ -47,7 +52,7 @@ export default function Hunting() {
             <div className={styles.container}>
                 <h1>You have no current hunts...</h1>
                 <h2>Click below to start hunting!</h2>
-                <div className={styles.addpokemon} onClick={() => setAddHuntVis(true)}>+</div>
+                <button className={styles.addpokemon} onClick={() => setAddHuntVis(true)}>+</button>
             </div>
         )
     }

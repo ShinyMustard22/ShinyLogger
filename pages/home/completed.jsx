@@ -1,7 +1,7 @@
 import HomeLayout from "../../layouts/HomeLayout";
 import HuntCard from "../../components/HuntCard";
 import { db } from "../../firebase/clientApp";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, doc, query, orderBy, onSnapshot } from "firebase/firestore";
 import styles from "../../styles/Completed.module.css"
 import { useState, useEffect } from "react";
 
@@ -11,8 +11,10 @@ export default function Completed() {
     const huntsRef = collection(db, "completed")
     useEffect(() => {
         const getHunts = async () => {
-            const data = await getDocs(huntsRef);
-            setHuntsData(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+            const huntsQuery = query(huntsRef, orderBy('name'));
+            onSnapshot(huntsQuery, (snapshot) => {
+                setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+            });
         }
 
         getHunts();
