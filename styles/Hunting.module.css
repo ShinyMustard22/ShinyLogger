@@ -21,6 +21,8 @@
 
 .addpokemon {
     font-size: 2rem;
+    background-color: transparent;
+    width: 15%;
     border: 0.25rem black solid;
     aspect-ratio: 1 / 1;
     text-align: center;
