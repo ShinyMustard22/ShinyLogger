@@ -1,5 +1,8 @@
 .navbar {
     background-color: rgb(214, 42, 60);
+    top: 0;
+    position: sticky;
+    z-index: 999;
 }
 
 .navlist {
