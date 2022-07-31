@@ -1,20 +1,28 @@
 import styles from "../styles/HuntCard.module.css";
 import generateLinkName from "../utility/generateLinkName";
 import { useState } from "react";
-import { updateDoc } from "firebase/firestore";
+import { addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import Image from "next/image";
 
 export default function HuntCard(props) {
-    const [encounters, setEncounters] = useState(props.encounters)
+    const [imageLoaded, setImageLoaded] = useState(false);
+
     const link = `https://img.pokemondb.net/sprites/home/shiny/${generateLinkName(props.name)}.png`;
 
     return (
        <div className={styles.container}>
             <div className={styles.altBg}>
                 <h1>{props.name}</h1>
+                <button className={styles.cross} onClick={deleteHunt}>✕</button>
+                <button className={styles.check} onClick={completeHunt}>✓</button>
             </div>
-            <img className={styles.image} src={link} alt={props.name} />
+            <div className={styles.imgContainer}>
+                <Image className={styles.image} src={`/api/imageProxy?imageUrl=${link}`}
+                    layout="fill" onLoad={() => {setImageLoaded(true)}}
+                    style={imageLoaded ? {} : {display: 'none'}}></Image>
+            </div>
             <div className={styles.altBg}>
-                <h2>Encounters: {encounters}</h2>
+                <h2>Encounters: {props.encounters}</h2>
                 <div className={styles.buttonLayout}>
                     <button className={styles.encounterButton} onClick={removeEncounter}>-</button>
                     <button className={styles.encounterButton} onClick={addEncounter}>+</button>
@@ -24,16 +32,21 @@ export default function HuntCard(props) {
     )
 
     async function removeEncounter() {
-        setEncounters(encounters - 1);
-
-        const newFields = { encounters: encounters - 1 };
+        const newFields = { encounters: props.encounters - 1 };
         await updateDoc(props.doc, newFields);
     }
 
     async function addEncounter() {
-        setEncounters(encounters + 1);
-
-        const newFields = { encounters: encounters + 1 };
+        const newFields = { encounters: props.encounters + 1 };
         await updateDoc(props.doc, newFields);
+    }
+
+    async function deleteHunt() {
+        await deleteDoc(props.doc);
+    }
+
+    async function completeHunt() {
+        deleteHunt();
+        await addDoc(props.completedRef, { name: props.name, encounters: props.encounters });
     }
 }

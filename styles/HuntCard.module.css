@@ -9,13 +9,56 @@
     overflow: hidden;
 }
 
-.image {
+.cross {
+    position: absolute;
+    font-size: 2rem;
+    width: 10%;
+    aspect-ratio: 1;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+}
+
+.cross:hover {
+    color: #87cefa;
+}
+
+.check {
+    position: absolute;
+    font-size: 2rem;
+    width: 10%;
+    aspect-ratio: 1;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+}
+
+.check:hover {
+    color: #87cefa;
+}
+
+.imgContainer {
+    position: relative;
     width: 60%;
-    padding: 0.5rem;
+    aspect-ratio: 1 / 1;
+    margin: 0.5rem;
+    z-index: -1;
+}
+
+.image {
+    object-fit: cover;
+    cursor: pointer;
 }
 
 .altBg {
-    padding: 0.25rem;
+    position: relative;
+    padding: 0.5rem;
     background-color: rgb(214, 42, 60);
     width: 100%;
 }
