@@ -3,14 +3,25 @@ import generateLinkName from '../utility/generateLinkName';
 import styles from '../styles/AddHuntMenu.module.css';
 import { useState } from 'react';
 import { addDoc } from 'firebase/firestore';
+import { auth } from '../firebase/clientApp';
+import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
+import Overlay from './Overlay';
 
 export default function AddHunt(props) {
+    let uid;
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            uid = user.uid;
+        }
+    });
+
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
         <>
-            <div className={styles.overlay} onClick={() => {props.setAddHuntVis(false)}}></div>
+            <Overlay vis={props.setAddHuntVis}/>
             <div className={styles.container}>
                 <header className={styles.header}>
                     <h1>Choose a Pokemon</h1>
@@ -28,7 +39,7 @@ export default function AddHunt(props) {
                         const link = `https://img.pokemondb.net/sprites/home/shiny/${linkName}.png`
                         return <button className={styles.listItem} key={key} onClick={() => {addHunt(val.name)}}>
                             <div className={styles.imgContainer}>
-                                <Image className={styles.listImage} src={`/api/imageProxy?imageUrl=${link}`} alt={val.name} layout="fill"></Image>
+                                <Image className={styles.listImage} src={link} alt={val.name} layout="fill"></Image>
                             </div>
                             {val.name} 
                             <br />
@@ -43,7 +54,7 @@ export default function AddHunt(props) {
     )
 
     async function addHunt(name) {
-        await addDoc(props.huntsRef, { name: name, encounters: 0 });
+        await addDoc(props.huntsRef, { name: name, encounters: 0, uid: uid });
         props.setAddHuntVis(false);
     }
 }

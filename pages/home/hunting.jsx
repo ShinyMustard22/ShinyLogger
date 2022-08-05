@@ -3,34 +3,55 @@ import AddHunt from "../../components/AddHuntMenu";
 import HuntCard from "../../components/HuntCard";
 import styles from "../../styles/Hunting.module.css";
 import { useState, useEffect } from "react";
-import { db } from "../../firebase/clientApp";
-import { query, orderBy, collection, doc, onSnapshot } from "firebase/firestore";
+import { db, auth } from "../../firebase/clientApp";
+import { query, orderBy, collection, doc, onSnapshot, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { Oval } from "react-loader-spinner";
 
 export default function Hunting() {
     const [addHuntVis, setAddHuntVis] = useState(false);
+    const [loaded, setIsLoaded] = useState(false);
     const [huntsData, setHuntsData] = useState([]);
 
     const huntsRef = collection(db, "hunts");
     const completedRef = collection(db, "completed");
 
     useEffect(() => {
-        const getHunts = async () => {
-            const huntsQuery = query(huntsRef, orderBy('name'));
-            onSnapshot(huntsQuery, (snapshot) => {
-                setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
-            });
-        }
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                const getHunts = async () => {
+                    const huntsQuery = query(huntsRef, where("uid", "==", user.uid));
+                    onSnapshot(huntsQuery, (snapshot) => {
+                        setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+                    });
+                    setIsLoaded(true);
+                }
 
-        getHunts();
+                getHunts();
+            }
+        });
     }, []);
 
-    
     return (
         <>
-            {addHuntVis ? <AddHunt setAddHuntVis={setAddHuntVis} huntsRef={huntsRef}/> : 
+            {!loaded ? loading() : 
+                addHuntVis ? <AddHunt setAddHuntVis={setAddHuntVis} huntsRef={huntsRef}/> : 
                 huntsData.length !== 0 ? huntsList() : addHuntVis ? "" : noHunts()}
         </>
     )
+
+    function loading() {
+        return (
+            <div className={styles.oval}>
+                <Oval wrapperClass={styles.oval}
+                    height={120}
+                    width={120}
+                    color='#d62a3c'
+                    secondaryColor="#d62a3c"
+                />
+            </div>
+        )
+    }
 
     function huntsList() {
         return (
