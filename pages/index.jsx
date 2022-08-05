@@ -8,4 +8,6 @@ export default function Website() {
     useEffect(() => {
         router.push("home");
     }, []);
+
+    return null;
 }
