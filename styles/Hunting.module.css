@@ -63,3 +63,15 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+@media screen and (max-width: 1080px) {
+    .main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .main {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
