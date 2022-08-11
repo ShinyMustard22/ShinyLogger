@@ -23,8 +23,8 @@ export default function Hunting() {
                     const huntsQuery = query(huntsRef, where("uid", "==", user.uid));
                     onSnapshot(huntsQuery, (snapshot) => {
                         setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+                        setIsLoaded(true);
                     });
-                    setIsLoaded(true);
                 }
 
                 getHunts();
