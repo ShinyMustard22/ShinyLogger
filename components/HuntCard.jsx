@@ -51,8 +51,10 @@ export default function HuntCard(props) {
     )
 
     async function removeEncounter() {
-        const newFields = { encounters: props.encounters - 1 };
-        await updateDoc(props.doc, newFields);
+        if (props.encounters > 0) {
+            const newFields = { encounters: props.encounters - 1 };
+            await updateDoc(props.doc, newFields);
+        }
     }
 
     async function addEncounter() {
