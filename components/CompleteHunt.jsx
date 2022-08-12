@@ -1,8 +1,18 @@
-import { deleteDoc, addDoc } from 'firebase/firestore';
+import { deleteDoc, addDoc, serverTimestamp } from 'firebase/firestore';
+import { auth } from '../firebase/clientApp';
+import { onAuthStateChanged } from 'firebase/auth';
 import styles from '../styles/EndHunt.module.css';
 import Overlay from './Overlay';
 
 export default function CompleteHunt(props) {
+    let uid;
+
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            uid = user.uid;
+        }
+    })
+
     return (
         <>
         <Overlay vis={props.vis}/>
@@ -15,6 +25,11 @@ export default function CompleteHunt(props) {
 
     async function completeHunt() {
         await deleteDoc(props.doc);
-        await addDoc(props.completedRef, { name: props.name, encounters: props.encounters });
+        await addDoc(props.completedRef, { 
+                name: props.name, 
+                encounters: props.encounters ,
+                uid: uid,
+                huntEnded: serverTimestamp()
+            });
     }
 }

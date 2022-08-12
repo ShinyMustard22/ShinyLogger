@@ -2,7 +2,7 @@ import { pokedex } from '../public/pokedex';
 import generateLinkName from '../utility/generateLinkName';
 import styles from '../styles/AddHuntMenu.module.css';
 import { useState } from 'react';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, serverTimestamp } from 'firebase/firestore';
 import { auth } from '../firebase/clientApp';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
@@ -54,7 +54,12 @@ export default function AddHunt(props) {
     )
 
     async function addHunt(name) {
-        await addDoc(props.huntsRef, { name: name, encounters: 0, uid: uid });
+        await addDoc(props.huntsRef, { 
+            name: name, 
+            encounters: 0, 
+            uid: uid, 
+            huntStarted: serverTimestamp()
+        });
         props.setAddHuntVis(false);
     }
 }
