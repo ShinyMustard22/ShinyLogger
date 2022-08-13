@@ -19,7 +19,7 @@ export default function Completed() {
         onAuthStateChanged(auth, user => {
             if (user) {
                 async function getHunts() {
-                    const huntsQuery = query(completedRef, orderBy("huntEnded"), where("uid", "==", user.uid));
+                    const huntsQuery = query(completedRef, orderBy("huntEnded", "desc"), where("uid", "==", user.uid));
                     onSnapshot(huntsQuery, (snapshot) => {
                         setHuntsData(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
                         setLoaded(true);
