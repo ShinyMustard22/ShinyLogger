@@ -20,11 +20,11 @@
 }
 
 .addpokemon {
-    font-size: 2rem;
+    font-size: 2em;
     background-color: transparent;
-    width: 15%;
+    width: 64px;
+    height: 64px;
     border: 0.25rem black solid;
-    aspect-ratio: 1 / 1;
     text-align: center;
     border-radius: 50%;
     cursor: pointer;
@@ -46,8 +46,8 @@
     font-size: 2rem;
     width: 4rem;
     height: 4rem;
-    border-radius: 50%;
-    border: 0.25rem solid black;
+    border-radius: 1rem;
+    border: 0.25rem solid lightgray;
     background-color: rgb(214, 42, 60);
     cursor: pointer;
 }
@@ -73,5 +73,16 @@
 @media screen and (max-width: 720px) {
     .main {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .container {
+        width: 26rem;
+        font-size: 12px;
+    }
+
+    .addpokemon {
+        width: 48px;
+        height: 48px;
+        border-width: 0.2rem;
     }
 }

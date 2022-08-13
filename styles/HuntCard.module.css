@@ -12,13 +12,15 @@
 .cross {
     position: absolute;
     font-size: 2rem;
-    width: 10%;
-    aspect-ratio: 1;
+    width: 36px;
+    height: 36px;
     top: 0;
     left: 0;
     cursor: pointer;
     background-color: transparent;
     border: none;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .cross:hover {
@@ -28,13 +30,15 @@
 .check {
     position: absolute;
     font-size: 2rem;
-    width: 10%;
-    aspect-ratio: 1;
+    width: 36px;
+    height: 36px;
     top: 0;
     right: 0;
     cursor: pointer;
     background-color: transparent;
     border: none;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .check:hover {
@@ -46,12 +50,6 @@
     width: 60%;
     aspect-ratio: 1 / 1;
     margin: 0.5rem;
-    z-index: -1;
-}
-
-.image {
-    object-fit: cover;
-    cursor: pointer;
 }
 
 .altBg {
