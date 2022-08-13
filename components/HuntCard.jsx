@@ -5,9 +5,10 @@ import { updateDoc } from "firebase/firestore";
 import Image from "next/image";
 import DeleteHunt from "./DeleteHunt";
 import CompleteHunt from "./CompleteHunt";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faCrosshairs, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 export default function HuntCard(props) {
-    const [imageLoaded, setImageLoaded] = useState(false);
     const [deleteHuntVis, setDeleteHunVis] = useState(false);
     const [completeHuntVis, setCompleteHuntVis] = useState(false);
 
@@ -18,19 +19,25 @@ export default function HuntCard(props) {
         <div className={styles.container}>
             <div className={styles.altBg}>
                 <h1>{props.name}</h1>
-                <button className={styles.cross} onClick={() => setDeleteHunVis(true)}>✕</button>
-                <button className={styles.check} onClick={() => setCompleteHuntVis(true)}>✓</button>
+                <button className={styles.cross} onClick={() => setDeleteHunVis(true)}>
+                    <FontAwesomeIcon icon={faTrash}/>
+                </button>
+                <button className={styles.check} onClick={() => setCompleteHuntVis(true)}>
+                    <FontAwesomeIcon icon={faCrosshairs}/>
+                </button>
             </div>
             <div className={styles.imgContainer}>
-                <Image className={styles.image} src={link}
-                    layout="fill" onLoad={() => {setImageLoaded(true)}}
-                    style={imageLoaded ? {} : {display: 'none'}}></Image>
+                <Image layout="fill" src={link}/>
             </div>
             <div className={styles.altBg}>
                 <h1 className={styles.huntNum}>{props.encounters}</h1>
                 <div className={styles.buttonLayout}>
-                    <button className={styles.encounterButton} onClick={removeEncounter}>-</button>
-                    <button className={styles.encounterButton} onClick={addEncounter}>+</button>
+                    <button className={styles.encounterButton} onClick={removeEncounter}>
+                        <FontAwesomeIcon icon={faMinus}/>
+                    </button>
+                    <button className={styles.encounterButton} onClick={addEncounter}>
+                        <FontAwesomeIcon icon={faPlus}/>
+                    </button>
                 </div>
             </div>
         </div>

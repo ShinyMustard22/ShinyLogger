@@ -7,6 +7,8 @@ import { auth } from '../firebase/clientApp';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
 import Overlay from './Overlay';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function AddHunt(props) {
     let uid;
@@ -25,7 +27,9 @@ export default function AddHunt(props) {
             <div className={styles.container}>
                 <header className={styles.header}>
                     <h1>Choose a Pokemon</h1>
-                    <button className={styles.exitBtn} onClick={() => {props.setAddHuntVis(false)}}>✕</button>
+                    <button className={styles.exitBtn} onClick={() => {props.setAddHuntVis(false)}}>
+                        <FontAwesomeIcon icon={faXmark}/>
+                    </button>
                 </header>
                 <input type="text" placeholder="Search..." className={styles.searchBar} onChange={(event) => {setSearchTerm(event.target.value)}}/>
                 <div className={styles.listContainer}> 
